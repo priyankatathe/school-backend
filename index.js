@@ -22,6 +22,7 @@ app.use("/api/teacher", require("./routes/teacher.route"))
 app.use("/api/student", require("./routes/student.route"))
 app.use("/api/gallery", require("./routes/gallery.routes"))
 app.use("/api/contact", require("./routes/contact.route"))
+app.use("/api/addform", require("./routes/addfrom.route"))
 
 
 app.use((req, res, next) => {
