@@ -6,6 +6,7 @@ const { checkEmpty } = require("../utils/checkEmpty")
 const Auth = require("../model/Auth")
 const sendEmail = require("../utils/email")
 
+const isProd = process.env.NODE_ENV === "production";
 
 exports.registerAdmin = asyncHandler(async (req, res) => {
 
