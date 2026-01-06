@@ -47,12 +47,12 @@ exports.loginAdmin = asyncHandler(async (req, res) => {
 
     try {
         if (!validator.isEmail(email)) {
-            return res.status(400).json({ message: "Invalid Email" })
+            return res.status(400).json({ message: "Invalid Emailll" })
         }
 
         const result = await Auth.findOne({ email })
         if (!result) {
-            return res.status(400).json({ message: "Invalid Email" })
+            return res.status(400).json({ message: "Invalid Emailllll" })
         }
 
         const isVerify = await bcrypt.compare(password, result.password)
