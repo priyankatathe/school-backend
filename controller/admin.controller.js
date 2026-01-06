@@ -69,8 +69,8 @@ exports.loginAdmin = asyncHandler(async (req, res) => {
         res.cookie("admin", token, {
             maxAge: 15 * 24 * 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: isProd ? "none" : "lax",
-            secure: isProd
+            sameSite: "none",   // ✅ MUST be none
+            secure: true
         })
 
         return res.json({
