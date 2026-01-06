@@ -38,13 +38,12 @@ exports.registerAdmin = asyncHandler(async (req, res) => {
 })
 
 exports.loginAdmin = asyncHandler(async (req, res) => {
+    const { email, password } = req.body
 
-    const { email, password, } = req.body
     const { isError, error } = checkEmpty({ email, password })
     if (isError) {
         return res.status(400).json({ message: "All Fields Required", error })
     }
-
 
     try {
         if (!validator.isEmail(email)) {
@@ -55,22 +54,26 @@ exports.loginAdmin = asyncHandler(async (req, res) => {
         if (!result) {
             return res.status(400).json({ message: "Invalid Email" })
         }
+
         const isVerify = await bcrypt.compare(password, result.password)
         if (!isVerify) {
             return res.status(400).json({ message: "Password do not match" })
         }
 
-        const token = jwt.sign({ userId: result._id },
-            process.env.JWT_KEY, { expiresIn: "15d" })
+        const token = jwt.sign(
+            { userId: result._id },
+            process.env.JWT_KEY,
+            { expiresIn: "15d" }
+        )
+
         res.cookie("admin", token, {
             maxAge: 15 * 24 * 60 * 60 * 1000,
             httpOnly: true,
-            sameSite: "none",
-            secure: isProd // ✅ prod=true, local=false
-
+            sameSite: isProd ? "none" : "lax",
+            secure: isProd
         })
 
-        res.json({
+        return res.json({
             message: "credentials verify success.",
             result: {
                 _id: result._id,
@@ -80,15 +83,13 @@ exports.loginAdmin = asyncHandler(async (req, res) => {
                 role: result.role,
             }
         })
+
     } catch (error) {
         console.log(error)
         return res.status(500).json({ message: "Internal Server Error" })
-
     }
-
-
-    res.json({ message: "Admin register successfully" })
 })
+
 exports.logoutAdmin = (req, res) => {
     res.clearCookie("admin")
     res.json({ message: "admin logout success" })
