@@ -187,8 +187,10 @@ exports.loginCleark = asyncHandler(async (req, res) => {
         const token = jwt.sign({ adminId: result._id },
             process.env.JWT_KEY, { expiresIn: "15d" })
         res.cookie("cleark", token, {
-            maxAge: 15 * 24 * 60 * 1000,
-            httpOnly: true
+            maxAge: 15 * 24 * 60 * 60 * 1000,
+            httpOnly: true,
+            sameSite: "none",   // ✅ MUST be none
+            secure: true
         })
 
         return res.json({
