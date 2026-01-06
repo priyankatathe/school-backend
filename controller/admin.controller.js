@@ -75,6 +75,7 @@ exports.loginAdmin = asyncHandler(async (req, res) => {
 
         return res.json({
             message: "credentials verify success.",
+            token,
             result: {
                 _id: result._id,
                 name: result.name,
