@@ -158,8 +158,8 @@ exports.registerCleark = asyncHandler(async (req, res) => {
             <p>Please change your password after logging in for the first time.</p>
         `
     })
-    await Auth.create({ name, email, password: hash, role: "cleark", mobile, adminId: req.user })
-    res.json({ message: "Cleark register successfully" })
+    const result = await Auth.create({ name, email, password: hash, role: "cleark", mobile, adminId: req.user })
+    res.json({ message: "Cleark register successfully", result })
 })
 
 exports.loginCleark = asyncHandler(async (req, res) => {
